@@ -1,5 +1,5 @@
-import { UserInfoType } from "../../../types/user";
-import { debounce } from "../../../utils/debounce";
+import { debounce } from "./debounce";
+import { UserInfoType } from "../types/user";
 
 // 아이디 유효성 검사
 const checkUserId = (value: string) => {
@@ -130,13 +130,9 @@ export const debouncedOnChange = debounce<typeof onChange>(
   500
 );
 
-export const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
-
 // 회원 가입 여부 확인
 export const askSignIn = () => {
   if (!window.confirm(`해당 정보로 회원 가입하시겠습니까?`)) {
     return;
   }
-
-  // api 추가
 };
