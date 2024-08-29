@@ -50,7 +50,7 @@ const Signin = () => {
 
   return (
     <div className="signin">
-      <section className="signin-container">
+      <div className="signin-container">
         <h3 className="signin-title">회원 가입</h3>
         <div className="signin-item">
           <div className="signin-item-title">아이디</div>
@@ -187,7 +187,7 @@ const Signin = () => {
         >
           회원 가입
         </button>
-      </section>
+      </div>
     </div>
   );
 };
