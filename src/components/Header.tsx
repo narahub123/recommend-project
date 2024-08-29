@@ -1,7 +1,9 @@
+import "./header.css";
 import { useEffect, useState } from "react";
 import { MdDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { UserSettingsType } from "../types/userSetting";
 import { changeColorMode, updateMode } from "./utils/header";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isLightMode, setIsLightMode] = useState(true);
@@ -29,16 +31,25 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-container">
-        <button
-          className="header-container-item"
-          onClick={() =>
-            changeColorMode(isLightMode, setIsLightMode, userSettings)
-          }
-        >
-          <i className="icon">
-            {isLightMode ? <MdDarkMode /> : <MdOutlineLightMode />}
-          </i>
-        </button>
+        <div className="header-container-left"></div>
+        <div className="header-container-right">
+          <Link to={"/signin"} className="header-container-item">
+            회원가입
+          </Link>
+          <Link to={"/login"} className="header-container-item">
+            로그인
+          </Link>
+          <button
+            className="header-container-item-button"
+            onClick={() =>
+              changeColorMode(isLightMode, setIsLightMode, userSettings)
+            }
+          >
+            <i className="icon">
+              {isLightMode ? <MdDarkMode /> : <MdOutlineLightMode />}
+            </i>
+          </button>
+        </div>
       </div>
     </header>
   );

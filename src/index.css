@@ -2,12 +2,21 @@
 :root {
   --color-basic: black;
   --color-bg: white;
+  --color-point: cornflowerblue;
+  --color-point-hover: rgba(100, 148, 237, 0.9);
+  --color-border: #ccc;
 }
 
 /* 다크 모드 */
 html.dark {
-  --color-basic: white;
+  --color-basic: #e1e1e1;
+  --color-basic-hover: #ccc;
   --color-bg: black;
+  --color-border: #e1e1e1;
+
+  input {
+    background-color: #e1e1e1;
+  }
 }
 
 html,
@@ -121,6 +130,7 @@ ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
@@ -142,4 +152,12 @@ table {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
 }
