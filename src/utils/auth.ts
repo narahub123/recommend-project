@@ -1,5 +1,5 @@
 import { debounce } from "./debounce";
-import { UserInfoType } from "../types/user";
+import { LoginInfoType, UserInfoType } from "../types/user";
 
 // 아이디 유효성 검사
 const checkUserId = (value: string) => {
@@ -83,6 +83,7 @@ const checkPassword = (value: string) => {
 // 회원 가입 input 박스 입력 함수
 const onChange = (
   e: React.ChangeEvent<HTMLInputElement>,
+  validationMessage: UserInfoType,
   setValidationMessage: React.Dispatch<React.SetStateAction<UserInfoType>>,
   setIsValid: React.Dispatch<React.SetStateAction<boolean>>,
   userInfo: UserInfoType,
@@ -90,9 +91,7 @@ const onChange = (
 ) => {
   const { id, value } = e.target;
 
-  console.log(id, value);
-
-  let validation: string;
+  let validation: string = "";
 
   if (id === "userId") {
     validation = checkUserId(value);
@@ -102,15 +101,15 @@ const onChange = (
     validation = checkPassword(value);
   }
 
-  const newValidationMessage = (prev: any) => ({
-    ...prev,
+  const newValidationMessage = {
+    ...validationMessage,
     [id]: validation,
-  });
+  };
 
   // 유효성 검사 메시지 추가
   setValidationMessage(newValidationMessage);
 
-  // 모든 유효성 메시지가 비어있는지 확인하여 isFormValid 상태 업데이트
+  // 모든 유효성 메시지가 비어있는지 확인하여 isValid 상태 업데이트
   const allValid = Object.values(newValidationMessage).every(
     (msg) => msg.length === 0
   );
@@ -125,8 +124,22 @@ const onChange = (
 
 // debounce onChange
 export const debouncedOnChange = debounce<typeof onChange>(
-  (e, setValidationMessage, setIsValid, userInfo, setUserInfo) =>
-    onChange(e, setValidationMessage, setIsValid, userInfo, setUserInfo),
+  (
+    e,
+    validationMessage,
+    setValidationMessage,
+    setIsValid,
+    userInfo,
+    setUserInfo
+  ) =>
+    onChange(
+      e,
+      validationMessage,
+      setValidationMessage,
+      setIsValid,
+      userInfo,
+      setUserInfo
+    ),
   500
 );
 
@@ -135,4 +148,68 @@ export const askSignIn = () => {
   if (!window.confirm(`해당 정보로 회원 가입하시겠습니까?`)) {
     return;
   }
+};
+
+// 로그인
+const loginOnChange = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  validationMessage: LoginInfoType,
+  setValidationMessage: React.Dispatch<React.SetStateAction<LoginInfoType>>,
+  setIsValid: React.Dispatch<React.SetStateAction<boolean>>,
+  loginInfo: LoginInfoType,
+  setLoginInfo: React.Dispatch<React.SetStateAction<LoginInfoType>>
+) => {
+  const { id, value } = e.target;
+
+  let validation: string = "";
+
+  if (id === "userId") {
+    validation = checkUserId(value);
+  } else if (id === "password") {
+    validation = checkPassword(value);
+  }
+
+  const newValidationMessage = {
+    ...validationMessage,
+    [id]: validation,
+  };
+
+  // 유효성 검사 메시지 추가
+  setValidationMessage(newValidationMessage);
+
+  // 모든 유효성 메시지가 비어있는지 확인하여 isValid 상태 업데이트
+  const allValid = Object.values(newValidationMessage).every(
+    (msg) => msg.length === 0
+  );
+
+  setIsValid(allValid);
+
+  setLoginInfo({
+    ...loginInfo,
+    [id as keyof typeof loginInfo]: value,
+  });
+};
+
+export const debouncedLoginOnChange = debounce<typeof loginOnChange>(
+  (
+    e,
+    validationMessage,
+    setValidationMessage,
+    setIsValid,
+    loginInfo,
+    setLoginInfo
+  ) =>
+    loginOnChange(
+      e,
+      validationMessage,
+      setValidationMessage,
+      setIsValid,
+      loginInfo,
+      setLoginInfo
+    ),
+  500
+);
+
+export const handleLogin = (loginInfo: LoginInfoType) => {
+  console.log(loginInfo);
 };
