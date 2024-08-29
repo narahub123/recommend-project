@@ -1,7 +1,14 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
+/* 라이트 모드 */
+:root {
+  --color-basic: black;
+  --color-bg: white;
+}
+
+/* 다크 모드 */
+html.dark {
+  --color-basic: white;
+  --color-bg: black;
+}
 
 html,
 body,
@@ -107,6 +114,8 @@ section {
 }
 body {
   line-height: 1;
+  background-color: var(--color-bg);
+  color: var(--color-basic);
 }
 ol,
 ul {
@@ -126,4 +135,11 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+/* react-icon의 위치 보정을 위한 코드 */
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

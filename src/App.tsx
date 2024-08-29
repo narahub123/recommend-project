@@ -1,5 +1,12 @@
+import Header from "./components/Header";
+
 function App() {
-  return <h3>하이</h3>;
+  return (
+    <>
+      <Header />
+      <div>테스트</div>
+    </>
+  );
 }
 
 export default App;
