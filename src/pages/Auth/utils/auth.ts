@@ -1,5 +1,8 @@
+import { UserInfoType } from "../../../types/user";
+import { debounce } from "../../../utils/debounce";
+
 // 아이디 유효성 검사
-export const checkUserId = (value: string) => {
+const checkUserId = (value: string) => {
   const messages = [];
 
   // 조건 확인
@@ -27,7 +30,7 @@ export const checkUserId = (value: string) => {
 };
 
 // 이메일 유효성 검사
-export const checkEmail = (value: string) => {
+const checkEmail = (value: string) => {
   const messages = [];
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
@@ -48,7 +51,7 @@ export const checkEmail = (value: string) => {
 };
 
 // 유효성 검사
-export const checkPassword = (value: string) => {
+const checkPassword = (value: string) => {
   console.log("비밀번호", value);
 
   const messages = [];
@@ -75,4 +78,65 @@ export const checkPassword = (value: string) => {
   } else {
     return messages.join(" ");
   }
+};
+
+// 회원 가입 input 박스 입력 함수
+const onChange = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  setValidationMessage: React.Dispatch<React.SetStateAction<UserInfoType>>,
+  setIsValid: React.Dispatch<React.SetStateAction<boolean>>,
+  userInfo: UserInfoType,
+  setUserInfo: React.Dispatch<React.SetStateAction<UserInfoType>>
+) => {
+  const { id, value } = e.target;
+
+  console.log(id, value);
+
+  let validation: string;
+
+  if (id === "userId") {
+    validation = checkUserId(value);
+  } else if (id === "email") {
+    validation = checkEmail(value);
+  } else if (id === "password") {
+    validation = checkPassword(value);
+  }
+
+  const newValidationMessage = (prev: any) => ({
+    ...prev,
+    [id]: validation,
+  });
+
+  // 유효성 검사 메시지 추가
+  setValidationMessage(newValidationMessage);
+
+  // 모든 유효성 메시지가 비어있는지 확인하여 isFormValid 상태 업데이트
+  const allValid = Object.values(newValidationMessage).every(
+    (msg) => msg.length === 0
+  );
+
+  setIsValid(allValid);
+
+  setUserInfo({
+    ...userInfo,
+    [id as keyof typeof userInfo]: value,
+  });
+};
+
+// debounce onChange
+export const debouncedOnChange = debounce<typeof onChange>(
+  (e, setValidationMessage, setIsValid, userInfo, setUserInfo) =>
+    onChange(e, setValidationMessage, setIsValid, userInfo, setUserInfo),
+  500
+);
+
+export const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+
+// 회원 가입 여부 확인
+export const askSignIn = () => {
+  if (!window.confirm(`해당 정보로 회원 가입하시겠습니까?`)) {
+    return;
+  }
+
+  // api 추가
 };

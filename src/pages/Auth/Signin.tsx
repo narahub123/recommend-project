@@ -1,12 +1,18 @@
 import { useState } from "react";
 import "./signin.css";
-import { checkEmail, checkPassword, checkUserId } from "./utils/auth";
+import { askSignIn, debouncedOnChange } from "./utils/auth";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { IoCheckmarkSharp } from "react-icons/io5";
+import { useRenderCount } from "@uidotdev/usehooks";
+import { UserInfoType } from "../../types/user";
 
 const Signin = () => {
+  const count = useRenderCount();
+
+  console.log("렌더링", count);
+
   // 유저 정보
-  const [userInfo, setUserInfo] = useState({
+  const [userInfo, setUserInfo] = useState<UserInfoType>({
     userId: "",
     email: "",
     password: "",
@@ -42,40 +48,6 @@ const Signin = () => {
       ? validationMessage.password.split(". ")
       : [];
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const key = e.target.id;
-    const value = e.target.value;
-
-    let validation;
-
-    if (key === "userId") {
-      validation = checkUserId(value);
-    } else if (key === "email") {
-      validation = checkEmail(value);
-    } else if (key === "password") {
-      validation = checkPassword(value);
-    }
-
-    const newValidationMessage = {
-      ...validationMessage,
-      [key]: validation,
-    };
-    // 유효성 검사 메시지 추가
-    setValidationMessage(newValidationMessage);
-
-    // 모든 유효성 메시지가 비어있는지 확인하여 isFormValid 상태 업데이트
-    const allValid = Object.values(newValidationMessage).every(
-      (msg) => msg.length === 0
-    );
-
-    setIsValid(allValid);
-
-    setUserInfo({
-      ...userInfo,
-      [key as keyof typeof userInfo]: value,
-    });
-  };
-
   return (
     <div className="signin">
       <section className="signin-container">
@@ -86,9 +58,16 @@ const Signin = () => {
             <input
               type="text"
               className="signin-item-input"
-              value={userInfo.userId}
               id="userId"
-              onChange={(e) => onChange(e)}
+              onChange={(e) =>
+                debouncedOnChange(
+                  e,
+                  setValidationMessage,
+                  setIsValid,
+                  userInfo,
+                  setUserInfo
+                )
+              }
             />
             {userIdValidation.length === 0 && (
               <IoCheckmarkSharp className="signin-item-input-icon icon valid" />
@@ -114,9 +93,16 @@ const Signin = () => {
             <input
               type="email"
               className="signin-item-input"
-              value={userInfo.email}
               id="email"
-              onChange={(e) => onChange(e)}
+              onChange={(e) =>
+                debouncedOnChange(
+                  e,
+                  setValidationMessage,
+                  setIsValid,
+                  userInfo,
+                  setUserInfo
+                )
+              }
             />
             {emailValidation.length === 0 && (
               <IoCheckmarkSharp className="signin-item-input-icon icon valid" />
@@ -143,9 +129,16 @@ const Signin = () => {
             <input
               type={canSee ? "text" : "password"}
               className="signin-item-input"
-              value={userInfo.password}
               id="password"
-              onChange={(e) => onChange(e)}
+              onChange={(e) =>
+                debouncedOnChange(
+                  e,
+                  setValidationMessage,
+                  setIsValid,
+                  userInfo,
+                  setUserInfo
+                )
+              }
             />
             <div className="signin-item-input-icon">
               {passwordValidation.length === 0 && (
@@ -190,6 +183,7 @@ const Signin = () => {
         <button
           className={`signin-btn${isValid ? " active" : ""}`}
           disabled={!isValid}
+          onClick={isValid ? () => askSignIn() : undefined}
         >
           회원 가입
         </button>
