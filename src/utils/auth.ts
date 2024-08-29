@@ -212,5 +212,8 @@ export const debouncedLoginOnChange = debounce<typeof loginOnChange>(
 
 export const handleLogin = (loginInfo: LoginInfoType) => {
   console.log(loginInfo);
-};
 
+  navigator.geolocation.getCurrentPosition((position) => {
+    console.log(position.coords.latitude, position.coords.longitude);
+  });
+};
