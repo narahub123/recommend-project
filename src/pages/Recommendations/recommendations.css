@@ -1,0 +1,15 @@
+.recommendations {
+  display: flex;
+  margin: 10px;
+}
+
+.recommendations-place-list {
+  flex: 30;
+  min-width: 300px;
+  
+  border: 1px solid var(--color-border);
+  height: 88.5vh;
+}
+.recommendations-map {
+  flex: 70;
+}

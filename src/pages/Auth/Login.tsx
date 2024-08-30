@@ -3,8 +3,10 @@ import { useState } from "react";
 import { debouncedLoginOnChange, handleLogin } from "../../utils/auth";
 import { LoginInfoType } from "../../types/user";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState<LoginInfoType>({
     userId: "",
     password: "",
@@ -80,7 +82,7 @@ const Login = () => {
         <button
           className={`login-btn${isValid ? " active" : ""}`}
           disabled={!isValid}
-          onClick={() => handleLogin(loginInfo)}
+          onClick={() => handleLogin(loginInfo, navigate)}
         >
           로그인
         </button>

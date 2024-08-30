@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import Signin from "./pages/Auth/Signin.tsx";
 import Login from "./pages/Auth/Login.tsx";
+import Recommendations from "./pages/Recommendations/Recommendations.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/signin",
         element: <Signin />,
+      },
+      {
+        path: "/recommendations",
+        element: <Recommendations />,
       },
     ],
   },

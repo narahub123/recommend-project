@@ -1,5 +1,6 @@
 import { debounce } from "./debounce";
 import { LoginInfoType, UserInfoType } from "../types/user";
+import { NavigateFunction } from "react-router-dom";
 
 // 아이디 유효성 검사
 const checkUserId = (value: string) => {
@@ -210,10 +211,31 @@ export const debouncedLoginOnChange = debounce<typeof loginOnChange>(
   500
 );
 
-export const handleLogin = (loginInfo: LoginInfoType) => {
+// 사용자의 현재 정보 받아오기오고 다른 페이지에 전달하기 
+const currentPosition = (position: any, navigate: NavigateFunction) => {
+  const latitude = position.coords.latitude;
+  const longitude = position.coords.longitude;
+
+  navigate("/recommendations", { state: { latitude, longitude } });
+};
+
+const error = (err: any) => {
+  console.log(err);
+};
+
+const options = {
+  enableHighAccuracy: true,
+};
+
+export const handleLogin = (
+  loginInfo: LoginInfoType,
+  navigate: NavigateFunction
+) => {
   console.log(loginInfo);
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    console.log(position.coords.latitude, position.coords.longitude);
-  });
+  navigator.geolocation.getCurrentPosition(
+    (position) => currentPosition(position, navigate),
+    error,
+    options
+  );
 };
