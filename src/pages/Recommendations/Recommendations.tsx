@@ -13,7 +13,7 @@ const Recommendations = () => {
   return (
     <div className="recommendations">
       <div className="recommendations-list">
-        <div className="recommendations-list-header">
+        <section className="recommendations-list-header">
           <p className="recommendation-list-header-title">추천 장소</p>
           <div className="recommendations-list-header-radius">
             <div className="recommendatinos-list-header-radius-title">
@@ -45,7 +45,9 @@ const Recommendations = () => {
               </ul>
             </div>
           </div>
-        </div>
+        </section>
+        {/* 현재는 세부 카테고리로 나누는 것은 불가능한 것으로 보임 */}
+        {/* <section className="recommendations-list-tags"></section> */}
       </div>
       <Map state={state} radius={radius} />
     </div>
