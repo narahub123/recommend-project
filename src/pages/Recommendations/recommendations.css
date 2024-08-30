@@ -3,12 +3,56 @@
   margin: 10px;
 }
 
-.recommendations-place-list {
+.recommendations-list {
   flex: 30;
   min-width: 300px;
-  
+
   border: 1px solid var(--color-border);
   height: 88.5vh;
+}
+
+.recommendations-list-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.recommendations-list-header-title {
+}
+.recommendations-list-header-radius {
+}
+.recommendations-list-header-radius-title {
+}
+.recommendatinos-list-header-radius-title-name {
+}
+.recommendatinos-list-header-radius-title-representative {
+  cursor: pointer;
+}
+.recommendations-list-header-radius-container {
+  position: absolute;
+  right: 0;
+  border: 1px solid var(--color-border);
+  background-color: #fff;
+  /* 변경 사항 */
+  margin-top: 0;
+  visibility: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.recommendations-list-header-radius-container.open {
+  /* 변경 사항 */
+  margin-top: 5px;
+  visibility: visible;
+  max-height: 200px;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.recommendations-list-header-radius-item {
+  padding: 5px;
+  cursor: pointer;
 }
 .recommendations-map {
   flex: 70;

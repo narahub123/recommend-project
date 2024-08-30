@@ -14,16 +14,17 @@ interface MapType {
     latitude: number;
     longitude: number;
   };
+  radius: number;
 }
 
-const Map = ({ state }: MapType) => {
+const Map = ({ state, radius }: MapType) => {
   const mapRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     window.kakao.maps.load(() => {
-      initMap(state);
+      initMap(state, radius);
     });
-  }, [mapRef, state]);
+  }, [mapRef, state, radius]);
 
   return (
     <div className="map" id="map" style={{ width: "100%" }}>

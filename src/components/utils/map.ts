@@ -1,4 +1,7 @@
-export const initMap = (state: { latitude: number; longitude: number }) => {
+export const initMap = (
+  state: { latitude: number; longitude: number },
+  radius: number
+) => {
   const container = document.getElementById("map");
   const options = {
     center: new window.kakao.maps.LatLng(state.latitude, state.longitude),
@@ -41,7 +44,7 @@ export const initMap = (state: { latitude: number; longitude: number }) => {
   // 카테고리로 식당을 검색
   places.categorySearch("FD6", placesSearchCB, {
     // options
-    radius: 150, // 중심 좌표로부터의 거리(반경) 필터링 값
+    radius, // 중심 좌표로부터의 거리(반경) 필터링 값
     location: options.center, // 중심 좌표
     useMapBounds: true,
     // 지정된 map 객체의 중심 좌표를 사용할지의 여부 참일 경우 location 속성 무시된다고
